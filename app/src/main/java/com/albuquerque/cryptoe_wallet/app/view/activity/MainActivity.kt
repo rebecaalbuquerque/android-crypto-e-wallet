@@ -1,4 +1,4 @@
-package com.albuquerque.cryptoe_wallet.app.view
+package com.albuquerque.cryptoe_wallet.app.view.activity
 
 import android.os.Bundle
 import com.albuquerque.cryptoe_wallet.R

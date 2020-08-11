@@ -29,3 +29,9 @@ fun String.parse(pattern: String? = "dd/MM/yyyy"): Date {
 
     return result
 }
+
+fun Date.add(field: Int, amount: Int): Date {
+    val calendar = Calendar.getInstance()
+    calendar.add(field, -amount)
+    return calendar.time
+}
