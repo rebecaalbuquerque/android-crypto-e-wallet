@@ -28,7 +28,6 @@
     <fragment
         android:id="@+id/transaction_destination"
         android:name="com.albuquerque.cryptoe_wallet.app.view.fragment.TransactionFragment"
-        android:label="fragment_transaction"
         tools:layout="@layout/fragment_transaction">
 
         <argument
@@ -37,9 +36,9 @@
             app:argType="integer" />
 
         <argument
-            android:name="teste"
-            android:defaultValue="0"
-            app:argType="integer" />
+            android:name="nameCurrency"
+            android:defaultValue="Bitcoin"
+            app:argType="string" />
 
         <action
             android:id="@+id/next_action"

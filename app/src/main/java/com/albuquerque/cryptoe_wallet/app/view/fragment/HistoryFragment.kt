@@ -1,14 +1,14 @@
 package com.albuquerque.cryptoe_wallet.app.view.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.albuquerque.cryptoe_wallet.R
+import com.albuquerque.cryptoe_wallet.core.view.fragment.BaseFragment
 
 
-class HistoryFragment : Fragment() {
+class HistoryFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,10 +21,6 @@ class HistoryFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        activity?.actionBar?.apply {
-            title = "Teste"
-        }
 
     }
 

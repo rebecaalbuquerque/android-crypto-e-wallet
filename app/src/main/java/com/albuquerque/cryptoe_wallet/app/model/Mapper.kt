@@ -23,7 +23,8 @@ fun CryptocurrencyEntity.toUI(): CryptocurrencyUI {
     return CryptocurrencyUI(
         this.name,
         this.buy,
-        this.sell
+        this.sell,
+        this.amount
     )
 }
 

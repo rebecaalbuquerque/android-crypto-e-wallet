@@ -8,6 +8,6 @@ class UserWithCurrencies(
     @Embedded
     val user: UserEntity,
 
-    @Relation(parentColumn = "userId", entityColumn = "currencyId", associateBy = Junction(UserCurrency::class))
+    @Relation(parentColumn = "email", entityColumn = "name", associateBy = Junction(UserCurrency::class))
     val currencies: List<CryptocurrencyEntity>
 )
