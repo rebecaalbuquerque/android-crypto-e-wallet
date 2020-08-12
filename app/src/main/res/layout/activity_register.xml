@@ -17,7 +17,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
-            style="@style/WalletToolbar"
+            style="@style/WalletAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
@@ -28,7 +28,7 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
-                android:theme="@style/WalletToolbar"
+                android:theme="@style/WalletAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize">
 

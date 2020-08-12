@@ -53,7 +53,7 @@ class RegisterActivity : BaseActivity() {
             }
 
             onError.observe(this@RegisterActivity) {
-
+                it
             }
         }
     }

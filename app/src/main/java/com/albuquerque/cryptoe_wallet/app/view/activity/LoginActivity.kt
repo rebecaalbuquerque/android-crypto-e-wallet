@@ -2,7 +2,6 @@ package com.albuquerque.cryptoe_wallet.app.view.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import com.albuquerque.cryptoe_wallet.R
@@ -38,7 +37,9 @@ class LoginActivity : BaseActivity() {
         with(loginViewModel) {
 
             onLoginSucessfull.observe(this@LoginActivity) {
-                Toast.makeText(this@LoginActivity, "Login", Toast.LENGTH_LONG).show()
+                startActivity(
+                    Intent(this@LoginActivity, MainActivity::class.java)
+                )
             }
 
             onRegisterClicked.observe(this@LoginActivity) {

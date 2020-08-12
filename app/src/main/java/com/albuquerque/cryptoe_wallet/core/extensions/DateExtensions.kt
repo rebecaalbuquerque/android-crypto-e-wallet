@@ -35,3 +35,10 @@ fun Date.add(field: Int, amount: Int): Date {
     calendar.add(field, -amount)
     return calendar.time
 }
+
+fun getCurrentBrazilianTime(): Date {
+    return Calendar.getInstance().apply {
+        clear(Calendar.ZONE_OFFSET)
+        timeZone = TimeZone.getTimeZone("GMT+03:00")
+    }.time
+}

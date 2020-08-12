@@ -10,10 +10,12 @@ interface Repository {
 
     fun hasLoggedUser(): LiveData<Boolean>
 
-    suspend fun signUp(user: UserEntity)
+    suspend fun signUp(user: UserEntity): UserEntity
 
-    suspend fun signIn(email: String, password: String): Result<UserEntity>
+    suspend fun signIn(email: String, password: String): UserEntity?
 
     suspend fun fetchCriptoCurrency(typeCriptocurrency: TypeCriptocurrency): Result<CryptocurrencyDTO>
+
+    suspend fun clearSession()
 
 }

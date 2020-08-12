@@ -6,13 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.albuquerque.cryptoe_wallet.app.model.entity.UserEntity
 import com.albuquerque.cryptoe_wallet.app.usecase.SignUpUseCase
 import com.albuquerque.cryptoe_wallet.core.viewmodel.BaseViewModel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class RegisterViewModel(
     private val signUpUseCase: SignUpUseCase
-): BaseViewModel() {
+) : BaseViewModel() {
 
     var fullName = ObservableField<String>()
     var email = ObservableField<String>()
@@ -22,20 +21,17 @@ class RegisterViewModel(
 
     fun register() {
 
-        if(email.get() != null && password.get() != null && fullName.get() != null) {
+        if (email.get() != null && password.get() != null && fullName.get() != null) {
 
-            viewModelScope.launch {
-                delay(1500)
+            viewModelScope.launch(Dispatchers.IO) {
 
                 try {
-                    signUpUseCase.invoke(
-                        UserEntity(email.get().toString(), password.get().toString(), fullName.get().toString())
-                    )
-
-                    onRegisterSucessfull.value = "Registro finalizado! Você já está pronto para utilizar a Crypto E-wallet!"
+                    signUpUseCase.invoke(UserEntity(email.get().toString(), password.get().toString(), fullName.get().toString()))
+                    onRegisterSucessfull.postValue("Registro finalizado! Você já está pronto para utilizar a Crypto E-wallet!")
                 } catch (e: Exception) {
-                    onError.value = "Erro ao criar novo usuário"
+                    onError.postValue("Erro ao criar novo usuário")
                 }
+
 
             }
         }

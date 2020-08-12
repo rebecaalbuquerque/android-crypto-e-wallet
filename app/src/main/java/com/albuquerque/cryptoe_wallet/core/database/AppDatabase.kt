@@ -8,12 +8,13 @@ import com.albuquerque.cryptoe_wallet.app.dao.SessionDao
 import com.albuquerque.cryptoe_wallet.app.dao.UserDao
 import com.albuquerque.cryptoe_wallet.app.model.entity.CryptocurrencyEntity
 import com.albuquerque.cryptoe_wallet.app.model.entity.SessionEntity
+import com.albuquerque.cryptoe_wallet.app.model.entity.UserCurrency
 import com.albuquerque.cryptoe_wallet.app.model.entity.UserEntity
 
 @Database(
         version = 1,
         exportSchema = false,
-        entities = [UserEntity::class, SessionEntity::class, CryptocurrencyEntity::class]
+        entities = [UserEntity::class, SessionEntity::class, CryptocurrencyEntity::class, UserCurrency::class]
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {

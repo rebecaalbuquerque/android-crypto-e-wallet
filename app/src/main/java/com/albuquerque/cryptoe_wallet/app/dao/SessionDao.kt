@@ -8,6 +8,10 @@ import com.albuquerque.cryptoe_wallet.core.database.BaseDao
 
 @Dao
 interface SessionDao: BaseDao<SessionEntity> {
+
     @Query("SELECT COUNT(*) FROM session")
     fun hasUserLogged(): LiveData<Int>
+
+    @Query("DELETE FROM session")
+    suspend fun deleteAll()
 }

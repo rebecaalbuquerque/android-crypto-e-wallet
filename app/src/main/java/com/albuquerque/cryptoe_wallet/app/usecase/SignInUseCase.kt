@@ -8,10 +8,9 @@ class SignInUseCase(
     private val repository: Repository
 ) {
 
-    suspend fun invoke(email: String, password: String): Result<UserUI> {
-        return repository.signIn(email, password).map {
-            it.toUI()
-        }
+    suspend fun invoke(email: String, password: String): UserUI? {
+        return repository.signIn(email, password)?.toUI()
+
     }
 
 }

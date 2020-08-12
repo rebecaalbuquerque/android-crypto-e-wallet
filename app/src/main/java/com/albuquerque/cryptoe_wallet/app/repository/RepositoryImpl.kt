@@ -20,19 +20,12 @@ class RepositoryImpl(
 
     override fun hasLoggedUser(): LiveData<Boolean> = local.hasLoggedUser()
 
-    override suspend fun signUp(user: UserEntity) {
-        local.signUp(user)
+    override suspend fun signUp(user: UserEntity): UserEntity {
+        return local.signUp(user)
     }
 
-    override suspend fun signIn(email: String, password: String): Result<UserEntity> {
-        val user = local.signIn(email, password)
-
-        return if (user != null) {
-            local.saveSession(user.email)
-            Result.success(user)
-        } else {
-            Result.failure(Throwable("Verifique as credenciais informadas."))
-        }
+    override suspend fun signIn(email: String, password: String): UserEntity? {
+        return local.signIn(email, password)
 
     }
 
@@ -48,6 +41,10 @@ class RepositoryImpl(
                     local.saveCurrency(brita.toEntity())
                 }
         }
+    }
+
+    override suspend fun clearSession() {
+        local.clearSession()
     }
 
 }

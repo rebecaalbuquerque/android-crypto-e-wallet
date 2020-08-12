@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/wallet_navigation"
+    app:startDestination="@id/wallet_destination">
+
+    <fragment
+        android:id="@+id/wallet_destination"
+        android:name="com.albuquerque.cryptoe_wallet.app.view.fragment.WalletFragment"
+        tools:layout="@layout/fragment_wallet">
+
+        <action
+            android:id="@+id/next_action"
+            app:destination="@id/transaction_destination"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/history_destination"
+        android:name="com.albuquerque.cryptoe_wallet.app.view.fragment.HistoryFragment"
+        tools:layout="@layout/fragment_history" />
+
+    <fragment
+        android:id="@+id/transaction_destination"
+        android:name="com.albuquerque.cryptoe_wallet.app.view.fragment.TransactionFragment"
+        android:label="fragment_transaction"
+        tools:layout="@layout/fragment_transaction">
+
+        <argument
+            android:name="typeTransaction"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <argument
+            android:name="teste"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/next_action"
+            app:popUpTo="@id/wallet_destination"/>
+
+    </fragment>
+
+</navigation>

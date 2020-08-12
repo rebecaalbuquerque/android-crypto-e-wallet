@@ -2,10 +2,10 @@ package com.albuquerque.cryptoe_wallet.core.remote
 
 import com.albuquerque.cryptoe_wallet.app.model.dto.BritaDTO
 import com.albuquerque.cryptoe_wallet.core.extensions.format
+import com.albuquerque.cryptoe_wallet.core.extensions.getCurrentBrazilianTime
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import java.util.*
 
 interface BancoCentralAPI {
 
@@ -18,7 +18,7 @@ interface BancoCentralAPI {
     suspend fun fetchBritaData(
         @Path("recurso") recurso: String = "CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)",
         @Query("@moeda") moeda: String = "'USD'",
-        @Query("@dataCotacao") dataCotacao: String = "'${Calendar.getInstance().time.format("MM-dd-yyyy")}'",
+        @Query("@dataCotacao") dataCotacao: String = "'${getCurrentBrazilianTime().format("MM-dd-yyyy")}'",
         @Query("\$format") formato: String = "json"
     ): BritaDTO
 

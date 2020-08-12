@@ -38,7 +38,7 @@ class SplashActivity : BaseActivity() {
         with(splashViewModel) {
 
             hasLoggedUser.observe(this@SplashActivity) { hasLoggedUser ->
-                hasLoggedUser
+
                 activityScope.launch {
                     delay(2500)
 

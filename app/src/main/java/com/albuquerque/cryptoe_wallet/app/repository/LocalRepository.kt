@@ -11,12 +11,18 @@ interface LocalRepository {
 
     suspend fun saveSession(userId: String)
 
-    suspend fun signUp(user: UserEntity)
+    suspend fun saveUser(user: UserEntity): UserEntity?
 
-    suspend fun signIn(email: String, password: String): UserEntity?
+    suspend fun getUserByEmailAndPassword(email: String, password: String): UserEntity?
 
     suspend fun saveCurrencies(currencies: List<CryptocurrencyEntity>)
 
     suspend fun saveCurrency(currency: CryptocurrencyEntity)
+
+    suspend fun signUp(user: UserEntity): UserEntity
+
+    suspend fun signIn(email: String, password: String): UserEntity?
+
+    suspend fun clearSession()
 
 }

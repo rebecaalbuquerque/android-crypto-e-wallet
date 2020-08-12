@@ -39,8 +39,8 @@ fun CryptocurrencyDTO.toEntity(): CryptocurrencyEntity {
 fun BritaDTO.toCryptocurrencyDTO(): CryptocurrencyDTO {
     return CryptocurrencyDTO(
         "Brita",
-        this.value.last { it.tipoBoletim == "Fechamento PTAX" }.cotacaoCompra,
-        this.value.last { it.tipoBoletim == "Fechamento PTAX" }.cotacaoVenda
+        this.value.last { it.tipoBoletim == "Fechamento PTAX" || it.tipoBoletim == "Intermediário" || it.tipoBoletim == "Intermediário" }.cotacaoCompra,
+        this.value.last { it.tipoBoletim == "Fechamento PTAX" || it.tipoBoletim == "Intermediário" || it.tipoBoletim == "Intermediário" }.cotacaoVenda
     )
 }
 

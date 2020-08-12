@@ -8,11 +8,10 @@ import com.albuquerque.cryptoe_wallet.app.usecase.SignInUseCase
 import com.albuquerque.cryptoe_wallet.core.viewmodel.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class LoginViewModel(
     private val signInUseCase: SignInUseCase
-): BaseViewModel() {
+) : BaseViewModel() {
 
     var email = ObservableField<String>()
     var password = ObservableField<String>()
@@ -20,23 +19,27 @@ class LoginViewModel(
     val onLoginSucessfull = MutableLiveData<UserUI>()
     val onRegisterClicked = MutableLiveData<Any>()
 
-    fun login() = viewModelScope.launch {
+    fun login() {
         onStartLoading.value = Any()
 
-        if(email.get() != null && password.get() != null) {
+        viewModelScope.launch(Dispatchers.IO) {
 
-            withContext(Dispatchers.IO) {
+            if (email.get() != null && password.get() != null) {
+
                 try {
-                    signInUseCase.invoke(email.get().toString(), password.get().toString())
-                        .onSuccess { onLoginSucessfull.postValue(it) }
-                        .onFailure { onError.postValue(it.message) }
+                    signInUseCase.invoke(email.get().toString(), password.get().toString())?.let {
+                        onLoginSucessfull.postValue(it)
+                    } ?: kotlin.run {
+                        onError.postValue("Verifique as credenciais informadas.")
+                    }
 
                 } catch (e: Exception) {
-                    onError.value = e.message
+                    onError.postValue(e.message)
                 }
+
+            } else {
+                onError.postValue("Preencha todos os campos.")
             }
-        } else {
-            onError.value = "Preencha todos os campos."
         }
     }
 
