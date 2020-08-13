@@ -27,9 +27,6 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.apply {
-            title = ""
-        }
 
         val host: NavHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment? ?: return
 

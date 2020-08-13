@@ -37,7 +37,6 @@ class RegisterActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            title = ""
         }
     }
 

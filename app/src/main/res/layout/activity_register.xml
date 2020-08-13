@@ -26,10 +26,11 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                style="@style/WalletAppBar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:theme="@style/WalletAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                app:title="Cadastro"/>
+                app:title="Cadastro" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -78,6 +79,7 @@
                         android:id="@+id/editTextName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions|textCapWords"
                         android:text="@={viewModel.fullName}"
                         android:textCursorDrawable="@null" />
 
@@ -96,6 +98,7 @@
                         android:id="@+id/editTextEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
                         android:text="@={viewModel.email}"
                         android:textCursorDrawable="@null" />
 
