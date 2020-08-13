@@ -61,6 +61,7 @@ class WalletApplication: Application() {
                 factory { GetLoggedUserUseCase(repository = get()) }
                 factory { GetUserCurrenciesUseCase(repository = get()) }
                 factory { GetCurrencyByName(repository = get()) }
+                factory { CreateTransactionUseCase(repository = get()) }
             }
 
             val viewModelModule = module {

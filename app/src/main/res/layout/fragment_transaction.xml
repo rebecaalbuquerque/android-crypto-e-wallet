@@ -5,11 +5,12 @@
 
     <data>
 
-        <import type="com.albuquerque.cryptoe_wallet.app.extensions.CurrencyExtensionsKt"/>
+        <import type="com.albuquerque.cryptoe_wallet.app.extensions.CurrencyExtensionsKt" />
 
         <variable
             name="viewModel"
             type="com.albuquerque.cryptoe_wallet.app.viewmodel.TransactionViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,11 +19,14 @@
         tools:context=".app.view.fragment.TransactionFragment">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardInformation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:padding="16dp"
+            app:cardCornerRadius="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -30,15 +34,15 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:background="@color/colorPrimary">
+                android:background="@color/colorPrimary"
+                android:padding="16dp">
 
                 <TextView
                     android:id="@+id/balance"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorPrimary"
                     android:text="@{`Seu saldo é ` + CurrencyExtensionsKt.toBrazilianCurrency(viewModel.user.balance)}"
+                    android:textColor="@color/textColorPrimary"
                     app:layout_constraintBottom_toTopOf="@+id/currencyTransactionPrice"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -49,16 +53,76 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorPrimary"
-                    app:typeTransaction="@{viewModel.typeTransaction}"
-                    app:sourceCurrency="@{viewModel.cryptocurrency}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/balance"
+                    app:sourceCurrency="@{viewModel.cryptocurrency}"
+                    app:typeTransaction="@{viewModel.typeTransaction}"
                     tools:text="Uma unidade de Bitcoin custa R$ 63.252,53" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputAmount"
+            style="@style/WalletTextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/hint_amount"
+            app:layout_constraintEnd_toEndOf="@+id/cardInformation"
+            app:layout_constraintStart_toStartOf="@+id/cardInformation"
+            app:layout_constraintTop_toBottomOf="@id/cardInformation"
+            app:placeholderText="Quantidade">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="@={viewModel.amount}"
+                android:textCursorDrawable="@null" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/totalAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:text="@{`Valor total a ser comprado: ` + viewModel.totalValue}"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@id/inputAmount"
+            app:layout_constraintStart_toStartOf="@id/inputAmount"
+            app:layout_constraintTop_toBottomOf="@id/inputAmount"
+            tools:text="Valor total a ser comprado: " />
+
+        <TextView
+            android:id="@+id/newBalance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@{`Seu saldo após a operação: ` + viewModel.newBalance}"
+            app:layout_constraintEnd_toEndOf="@id/totalAmount"
+            app:layout_constraintStart_toStartOf="@id/totalAmount"
+            app:layout_constraintTop_toBottomOf="@id/totalAmount"
+            tools:text="Seu saldo após a operação: " />
+
+        <Button
+            android:id="@+id/buttonConfirm"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="56dp"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:text="@string/label_button_confirm"
+            app:layout_constraintEnd_toEndOf="@+id/newBalance"
+            app:layout_constraintStart_toStartOf="@+id/newBalance"
+            app:layout_constraintTop_toBottomOf="@id/newBalance" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -18,3 +18,30 @@ fun BigDecimal?.toBrazilianCurrency(): String{
     }
 
 }
+
+fun BigDecimal?.plus(value: String?): String {
+
+    return if(this != null && !value.isNullOrEmpty()) {
+        this.plus(BigDecimal(value)).toBrazilianCurrency()
+    } else {
+        ""
+    }
+}
+
+fun BigDecimal?.minus(value: String?): String {
+
+    return if(this != null && !value.isNullOrEmpty()) {
+        this.minus(BigDecimal(value)).toBrazilianCurrency()
+    } else {
+        ""
+    }
+}
+
+fun BigDecimal?.times(value: String?): String {
+
+    return if(this != null && !value.isNullOrEmpty()) {
+        this.times(BigDecimal(value)).toBrazilianCurrency()
+    } else {
+        ""
+    }
+}

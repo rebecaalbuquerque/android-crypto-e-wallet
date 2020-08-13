@@ -3,7 +3,9 @@
     <string name="hint_full_name">Nome completo</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Senha</string>
+    <string name="hint_amount">Quantidade</string>
     <string name="label_button_register">Cadastrar</string>
+    <string name="label_button_confirm">Confirmar</string>
     <string name="label_button_sign_in">Entrar</string>
     <string name="label_button_sign_up">Não possui uma conta? Cadastre-se</string>
     <string name="toolbar_title_register">Cadastro</string>
