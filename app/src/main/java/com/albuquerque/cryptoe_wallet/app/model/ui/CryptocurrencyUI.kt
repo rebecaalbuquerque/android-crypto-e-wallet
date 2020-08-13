@@ -6,6 +6,6 @@ data class CryptocurrencyUI(
     val name: String,
     val buyValue: BigDecimal,
     val sellValue: BigDecimal,
-    val amountValue: BigDecimal = BigDecimal(0),
-    val amount: BigDecimal = BigDecimal(0)
+    val amount: BigDecimal = BigDecimal(0),
+    val amountValue: BigDecimal = sellValue.times(amount)
 )

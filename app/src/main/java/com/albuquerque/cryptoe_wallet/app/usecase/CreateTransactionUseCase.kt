@@ -1,14 +1,18 @@
 package com.albuquerque.cryptoe_wallet.app.usecase
 
+import com.albuquerque.cryptoe_wallet.app.model.toEntity
+import com.albuquerque.cryptoe_wallet.app.model.ui.CryptocurrencyUI
+import com.albuquerque.cryptoe_wallet.app.model.ui.UserUI
 import com.albuquerque.cryptoe_wallet.app.repository.Repository
+import com.albuquerque.cryptoe_wallet.app.utils.TypeTransaction
+import java.math.BigDecimal
 
 class CreateTransactionUseCase(
     private val repository: Repository
 ) {
 
-    fun invoke() {
-        // TODO: atualizar usuário com suas moedas (UserCurrency)
-        // TODO: inserir uma transacao (TransactionEntity e UserTransaction)
+    suspend fun invoke(typeTransaction: TypeTransaction, user: UserUI, cryptocurrency: CryptocurrencyUI, amountRequested: BigDecimal) {
+        repository.createTransaction(typeTransaction, user.toEntity(), cryptocurrency.toEntity(), amountRequested)
     }
 
 }

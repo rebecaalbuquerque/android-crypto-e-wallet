@@ -19,11 +19,29 @@ fun UserEntity.toUI(): UserUI {
     )
 }
 
+fun UserUI.toEntity(): UserEntity {
+    return UserEntity(
+        this.email,
+        this.password,
+        this.fullName,
+        this.balance
+    )
+}
+
 fun CryptocurrencyEntity.toUI(): CryptocurrencyUI {
     return CryptocurrencyUI(
         this.name,
         this.buy,
         this.sell,
+        this.amount
+    )
+}
+
+fun CryptocurrencyUI.toEntity(): CryptocurrencyEntity {
+    return CryptocurrencyEntity(
+        this.name,
+        this.buyValue,
+        this.sellValue,
         this.amount
     )
 }
@@ -40,8 +58,8 @@ fun CryptocurrencyDTO.toEntity(): CryptocurrencyEntity {
 fun BritaDTO.toCryptocurrencyDTO(): CryptocurrencyDTO {
     return CryptocurrencyDTO(
         "Brita",
-        this.value.last { it.tipoBoletim == "Fechamento PTAX" || it.tipoBoletim == "Intermediário" || it.tipoBoletim == "Intermediário" }.cotacaoCompra,
-        this.value.last { it.tipoBoletim == "Fechamento PTAX" || it.tipoBoletim == "Intermediário" || it.tipoBoletim == "Intermediário" }.cotacaoVenda
+        this.value.last { it.tipoBoletim == "Fechamento PTAX" || it.tipoBoletim == "Abertura" || it.tipoBoletim == "Intermediário" }.cotacaoCompra,
+        this.value.last { it.tipoBoletim == "Fechamento PTAX" || it.tipoBoletim == "Abertura" || it.tipoBoletim == "Intermediário" }.cotacaoVenda
     )
 }
 

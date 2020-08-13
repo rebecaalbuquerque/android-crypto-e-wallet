@@ -6,7 +6,7 @@ data class UserUI(
     val email: String,
     val password: String,
     val fullName: String,
-    val balance: BigDecimal
+    var balance: BigDecimal
 ) {
     val firstName = fullName.split(" ").first()
 }

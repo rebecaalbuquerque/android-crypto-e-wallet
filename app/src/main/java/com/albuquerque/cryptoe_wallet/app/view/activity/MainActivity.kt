@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.albuquerque.cryptoe_wallet.R
@@ -17,6 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
 
+    private lateinit var appBarConfiguration : AppBarConfiguration
     private val sessionViewModel: SessionViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,8 +33,10 @@ class MainActivity : BaseActivity() {
 
         val host: NavHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment? ?: return
 
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.wallet_destination, R.id.history_destination))
+
         with(host.navController) {
-            setupActionBar(this, AppBarConfiguration(setOf(R.id.wallet_destination, R.id.history_destination)))
+            setupActionBar(this, appBarConfiguration)
             setupBottomNavMenu(this)
         }
 
@@ -45,6 +50,10 @@ class MainActivity : BaseActivity() {
 
     private fun setupActionBar(navController: NavController, appBarConfig : AppBarConfiguration) {
         setupActionBarWithNavController(navController, appBarConfig)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return findNavController(R.id.fragment_container_view).navigateUp(appBarConfiguration)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

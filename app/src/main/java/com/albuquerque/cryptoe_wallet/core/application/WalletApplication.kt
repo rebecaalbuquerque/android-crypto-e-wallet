@@ -44,12 +44,13 @@ class WalletApplication: Application() {
                 single { get<AppDatabase>().userDao }
                 single { get<AppDatabase>().sessionDao }
                 single { get<AppDatabase>().cryptocurrencyDao }
+                single { get<AppDatabase>().transactionDao }
             }
 
             val repositoryModule = module {
-                factory<RemoteRepository> { RemoteRepositoryImpl() }
-                factory<LocalRepository> { LocalRepositoryImpl(userDao = get(), sessionDao = get(), cryptocurrencyDao = get()) }
-                factory<Repository> { RepositoryImpl(remote = get(), local = get()) }
+                factory { RemoteRepository() }
+                factory { LocalRepository(userDao = get(), sessionDao = get(), cryptocurrencyDao = get(), transactionDao = get()) }
+                factory { Repository(remote = get(), local = get()) }
             }
 
             val useCaseModule = module {
@@ -65,12 +66,29 @@ class WalletApplication: Application() {
             }
 
             val viewModelModule = module {
-                viewModel { SplashViewModel(checkHasLoggedUserUseCase = get(), getCurrenciesUseCase = get()) }
-                viewModel { RegisterViewModel(signUpUseCase = get()) }
-                viewModel { LoginViewModel(signInUseCase = get()) }
-                viewModel { SessionViewModel(clearSessionUseCase = get()) }
+                viewModel {
+                    SplashViewModel(
+                        checkHasLoggedUserUseCase = get(),
+                        getCurrenciesUseCase = get()
+                    )
+                }
+                viewModel {
+                    RegisterViewModel(
+                        signUpUseCase = get()
+                    )
+                }
+                viewModel {
+                    LoginViewModel(
+                        signInUseCase = get()
+                    )
+                }
+                viewModel {
+                    SessionViewModel(
+                        clearSessionUseCase = get()
+                    )
+                }
                 viewModel { WalletViewModel(getLoggedUserUseCase = get(), getUserCurrenciesUseCase = get()) }
-                viewModel { TransactionViewModel(getLoggedUserUseCase = get(), getCurrencyByName = get()) }
+                viewModel { TransactionViewModel(getLoggedUserUseCase = get(), getCurrencyByName = get(), createTransactionUseCase = get()) }
             }
 
             modules(listOf(databaseModule, repositoryModule, useCaseModule, viewModelModule))
