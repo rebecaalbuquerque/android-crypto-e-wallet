@@ -1,133 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    app:cardCornerRadius="12dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <import type="com.albuquerque.cryptoe_wallet.app.extensions.CurrencyExtensionsKt"/>
+
+        <variable
+            name="currency"
+            type="com.albuquerque.cryptoe_wallet.app.model.ui.CryptocurrencyUI" />
+    </data>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#8AFFA400">
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="12dp">
 
-        <TextView
-            android:id="@+id/currencyName"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Bitcoin" />
+            android:background="#8AFFA400">
 
-        <TextView
-            android:id="@+id/labelBuyValue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Valor de compra"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintStart_toStartOf="@id/currencyName"
-            app:layout_constraintTop_toBottomOf="@id/currencyName" />
+            <TextView
+                android:id="@+id/currencyName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@{currency.name}"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Bitcoin" />
 
-        <TextView
-            android:id="@+id/buyValue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="R$ 64.021,99"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/labelBuyValue"
-            app:layout_constraintStart_toStartOf="@id/labelBuyValue"
-            app:layout_constraintTop_toBottomOf="@id/labelBuyValue" />
+            <TextView
+                android:id="@+id/currencyAmount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{currency.amount.intValueExact() > 0 ? `você possui ` + currency.amount + ` moedas` : `você ainda não tem unidades dessa moeda`}"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/currencyName"
+                app:layout_constraintEnd_toEndOf="@+id/sellValue"
+                app:layout_constraintStart_toEndOf="@id/barrier"
+                tools:text="você possui 1,4 moedas" />
 
-        <TextView
-            android:id="@+id/labelSellValue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="Valor de venda"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-            app:layout_constraintStart_toEndOf="@id/guideline2"
-            app:layout_constraintTop_toTopOf="@+id/labelBuyValue" />
+            <TextView
+                android:id="@+id/labelBuyValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/wallet_label_valor_compra"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@id/currencyName"
+                app:layout_constraintTop_toBottomOf="@id/currencyName" />
 
-        <TextView
-            android:id="@+id/sellValue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="R$ 64.247,99"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-            app:layout_constraintStart_toStartOf="@id/labelSellValue"
-            app:layout_constraintTop_toBottomOf="@id/labelSellValue" />
+            <TextView
+                android:id="@+id/buyValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{CurrencyExtensionsKt.toBrazilianCurrency(currency.buyValue)}"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/labelBuyValue"
+                app:layout_constraintStart_toStartOf="@id/labelBuyValue"
+                app:layout_constraintTop_toBottomOf="@id/labelBuyValue"
+                tools:text="R$ 64.021,99" />
 
-        <TextView
-            android:id="@+id/labelTotal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Valor total"
-            app:layout_constraintEnd_toEndOf="@+id/buyValue"
-            app:layout_constraintStart_toStartOf="@id/buyValue"
-            app:layout_constraintTop_toBottomOf="@id/buyValue" />
+            <TextView
+                android:id="@+id/labelSellValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/wallet_label_valor_venda"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+                app:layout_constraintStart_toEndOf="@id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/labelBuyValue" />
 
-        <TextView
-            android:id="@+id/total"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="R$ 64.247,99"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-            app:layout_constraintStart_toStartOf="@id/labelTotal"
-            app:layout_constraintTop_toBottomOf="@id/labelTotal" />
+            <TextView
+                android:id="@+id/sellValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@{CurrencyExtensionsKt.toBrazilianCurrency(currency.sellValue)}"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@id/labelSellValue"
+                app:layout_constraintTop_toBottomOf="@id/labelSellValue" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/labelTotal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/wallet_label_valor_total"
+                app:layout_constraintEnd_toEndOf="@+id/buyValue"
+                app:layout_constraintStart_toStartOf="@id/buyValue"
+                app:layout_constraintTop_toBottomOf="@id/buyValue" />
 
-            <ImageView
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@{CurrencyExtensionsKt.toBrazilianCurrency(currency.amountValue)}"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@id/labelTotal"
+                app:layout_constraintTop_toBottomOf="@id/labelTotal" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:src="@drawable/ic_venda"
-                tools:ignore="ContentDescription" />
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+                <ImageView
+                    android:id="@+id/buttonSell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_venda"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/buttonBuy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_compra"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/buttonExchange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_troca"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:src="@drawable/ic_compra"
-                tools:ignore="ContentDescription" />
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
-            <ImageView
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:src="@drawable/ic_troca"
-                tools:ignore="ContentDescription" />
+                app:barrierDirection="end"
+                app:constraint_referenced_ids="currencyName"
+                app:layout_constraintStart_toEndOf="@id/currencyName" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.cardview.widget.CardView>
+</layout>

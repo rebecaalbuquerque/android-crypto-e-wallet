@@ -17,7 +17,8 @@
     </style>
 
     <style name="WalletAppBar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
-        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
     </style>
 
 </resources>

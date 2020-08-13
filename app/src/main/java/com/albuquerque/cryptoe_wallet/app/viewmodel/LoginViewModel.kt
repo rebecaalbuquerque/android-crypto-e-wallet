@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.albuquerque.cryptoe_wallet.app.model.ui.UserUI
 import com.albuquerque.cryptoe_wallet.app.usecase.SignInUseCase
+import com.albuquerque.cryptoe_wallet.app.utils.Session
 import com.albuquerque.cryptoe_wallet.core.viewmodel.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +29,7 @@ class LoginViewModel(
 
                 try {
                     signInUseCase.invoke(email.get().toString(), password.get().toString())?.let {
+                        Session.userLogged = it.email
                         onLoginSucessfull.postValue(it)
                     } ?: kotlin.run {
                         onError.postValue("Verifique as credenciais informadas.")

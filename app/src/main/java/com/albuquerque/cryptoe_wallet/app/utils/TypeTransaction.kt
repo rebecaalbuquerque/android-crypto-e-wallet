@@ -1,7 +1,7 @@
 package com.albuquerque.cryptoe_wallet.app.utils
 
-enum class TypeTransaction(val id: Int) {
-    SALE(0), PURCHASE(1), EXCHANGE(2);
+enum class TypeTransaction(val id: Int, val title: String) {
+    SALE(0, "Venda"), PURCHASE(1, "Compra"), EXCHANGE(2, "Troca");
 
     companion object {
         fun getByValue(id: Int): TypeTransaction {

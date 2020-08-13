@@ -2,9 +2,9 @@ package com.albuquerque.cryptoe_wallet.app.model.entity
 
 import androidx.room.Entity
 
-@Entity(primaryKeys = ["userId", "currencyId"])
+@Entity(primaryKeys = ["email", "name"])
 data class UserCurrency(
-    val userId: String,
-    val currencyId: String,
+    val email: String,
+    val name: String,
     val amount: Int
 )

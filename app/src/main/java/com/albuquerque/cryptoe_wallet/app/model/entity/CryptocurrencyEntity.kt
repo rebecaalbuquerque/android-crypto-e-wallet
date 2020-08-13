@@ -9,5 +9,6 @@ data class CryptocurrencyEntity(
     @PrimaryKey val name: String,
     val buy: BigDecimal,
     val sell: BigDecimal,
-    val amount: BigDecimal
+    val amount: BigDecimal,
+    val amountValue: BigDecimal = amount.times(buy)
 )

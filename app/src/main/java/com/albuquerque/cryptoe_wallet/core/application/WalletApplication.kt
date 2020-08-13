@@ -3,10 +3,7 @@ package com.albuquerque.cryptoe_wallet.core.application
 import android.app.Application
 import com.albuquerque.cryptoe_wallet.app.repository.*
 import com.albuquerque.cryptoe_wallet.app.usecase.*
-import com.albuquerque.cryptoe_wallet.app.viewmodel.LoginViewModel
-import com.albuquerque.cryptoe_wallet.app.viewmodel.RegisterViewModel
-import com.albuquerque.cryptoe_wallet.app.viewmodel.SessionViewModel
-import com.albuquerque.cryptoe_wallet.app.viewmodel.SplashViewModel
+import com.albuquerque.cryptoe_wallet.app.viewmodel.*
 import com.albuquerque.cryptoe_wallet.core.database.AppDatabase
 import com.facebook.stetho.Stetho
 import org.koin.android.ext.koin.androidContext
@@ -61,6 +58,10 @@ class WalletApplication: Application() {
                 factory { SignInUseCase(repository = get()) }
                 factory { SignUpUseCase(repository = get()) }
                 factory { ClearSessionUseCase(repository = get()) }
+                factory { GetLoggedUserUseCase(repository = get()) }
+                factory { GetUserCurrenciesUseCase(repository = get()) }
+                factory { GetCurrencyByName(repository = get()) }
+                factory { CreateTransactionUseCase(repository = get()) }
             }
 
             val viewModelModule = module {
@@ -68,6 +69,8 @@ class WalletApplication: Application() {
                 viewModel { RegisterViewModel(signUpUseCase = get()) }
                 viewModel { LoginViewModel(signInUseCase = get()) }
                 viewModel { SessionViewModel(clearSessionUseCase = get()) }
+                viewModel { WalletViewModel(getLoggedUserUseCase = get(), getUserCurrenciesUseCase = get()) }
+                viewModel { TransactionViewModel(getLoggedUserUseCase = get(), getCurrencyByName = get()) }
             }
 
             modules(listOf(databaseModule, repositoryModule, useCaseModule, viewModelModule))
