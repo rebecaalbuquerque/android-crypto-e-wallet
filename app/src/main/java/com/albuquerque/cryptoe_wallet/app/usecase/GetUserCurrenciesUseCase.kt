@@ -16,7 +16,7 @@ class GetUserCurrenciesUseCase(
      * */
     suspend fun executeFromDb() = flow {
         emitAll(
-            repository.getCriptoCurrency().map { list ->
+            repository.getCriptoCurrencies().map { list ->
                 list.flatMap { it.currencies.map { currency -> currency.toUI() } }
             }
         )

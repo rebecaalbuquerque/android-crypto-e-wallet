@@ -6,9 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.albuquerque.cryptoe_wallet.R
 import com.albuquerque.cryptoe_wallet.app.utils.TypeTransaction
@@ -23,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_transaction.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class TransactionFragment : Fragment() {
+class TransactionFragment : BaseFragment() {
 
     private val safeArgs: TransactionFragmentArgs by navArgs()
     private val transactionViewModel: TransactionViewModel by viewModel()
@@ -65,7 +64,7 @@ class TransactionFragment : Fragment() {
         with(transactionViewModel) {
 
             onHideKeyboard.observe(viewLifecycleOwner) {
-                //this@TransactionFragment.context?.let { ctx -> super.hideKeyboardFrom(ctx) }
+                this@TransactionFragment.context?.let { ctx -> super.hideKeyboardFrom(ctx) }
             }
 
             onError.observe(viewLifecycleOwner) {
@@ -84,7 +83,7 @@ class TransactionFragment : Fragment() {
             }
 
             onFinishedTransaction.observe(viewLifecycleOwner) {
-                Navigation.createNavigateOnClickListener(R.id.next_action)
+                findNavController().navigate(R.id.next_action)
             }
 
         }

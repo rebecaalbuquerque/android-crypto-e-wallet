@@ -21,7 +21,6 @@
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:theme="@style/WalletAppBar"
             android:layout_width="match_parent"
-            app:title="@null"
             android:layout_height="?android:attr/actionBarSize"/>
 
     </com.google.android.material.appbar.AppBarLayout>

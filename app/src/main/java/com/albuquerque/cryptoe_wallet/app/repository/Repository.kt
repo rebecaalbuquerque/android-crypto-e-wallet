@@ -51,7 +51,7 @@ class Repository(
         }
     }
 
-    fun getCriptoCurrency(): Flow<List<UserWithCurrencies>> = local.getCurrencies()
+    fun getCriptoCurrencies(): Flow<List<UserWithCurrencies>> = local.getCurrencies()
 
     fun getCriptoCurrencyByName(name: String): LiveData<CryptocurrencyEntity?> = local.getCriptoCurrencyByNameAsLiveData(name)
 
@@ -62,8 +62,8 @@ class Repository(
     suspend fun createTransaction(typeTransaction: TypeTransaction, user: UserEntity, cryptocurrency: CryptocurrencyEntity, amountRequested: BigDecimal) {
         //  atualiza usuário com sua moeda (UserCurrency) e insere uma transacao (TransactionEntity e UserTransaction)
         when(typeTransaction) {
-            SALE -> cryptocurrency.apply { amount += amountRequested }
-            PURCHASE -> cryptocurrency.apply { amount -= amountRequested }
+            SALE -> cryptocurrency.apply { amount -= amountRequested }
+            PURCHASE -> cryptocurrency.apply { amount += amountRequested }
             EXCHANGE -> {}
         }
 

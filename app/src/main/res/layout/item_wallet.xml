@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="java.math.BigDecimal"/>
+
         <import type="com.albuquerque.cryptoe_wallet.app.extensions.CurrencyExtensionsKt"/>
 
         <variable
@@ -44,7 +46,7 @@
                 android:layout_marginStart="8dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{currency.amount.intValueExact() > 0 ? `você possui ` + currency.amount + ` moedas` : `você ainda não tem unidades dessa moeda`}"
+                android:text="@{currency.amount.compareTo(BigDecimal.ZERO) > 0 ? `você possui ` + currency.amount + ` moedas` : `você ainda não tem unidades dessa moeda`}"
                 android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/currencyName"

@@ -2,6 +2,7 @@ package com.albuquerque.cryptoe_wallet.app.view.fragment
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.albuquerque.cryptoe_wallet.R
@@ -31,6 +32,11 @@ class WalletFragment : BaseFragment() {
         setupUI()
         setupDataBinding()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity?)?.supportActionBar?.title = ""
     }
 
     private fun setupDataBinding() {
