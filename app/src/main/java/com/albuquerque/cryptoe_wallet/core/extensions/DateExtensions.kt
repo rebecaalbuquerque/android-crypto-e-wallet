@@ -33,7 +33,13 @@ fun String.parse(pattern: String? = "dd/MM/yyyy"): Date {
 fun Long.format(pattern: String): String = Date(this).format(pattern)
 
 fun Date.add(field: Int, amount: Int): Date {
-    val calendar = Calendar.getInstance()
+    val calendar = Calendar.getInstance().apply { time = this@add }
+    calendar.add(field, amount)
+    return calendar.time
+}
+
+fun Date.minus(field: Int, amount: Int): Date {
+    val calendar = Calendar.getInstance().apply { time = this@minus }
     calendar.add(field, -amount)
     return calendar.time
 }
@@ -41,6 +47,18 @@ fun Date.add(field: Int, amount: Int): Date {
 fun getCurrentBrazilianTime(): Date {
     return Calendar.getInstance().apply {
         clear(Calendar.ZONE_OFFSET)
-        timeZone = TimeZone.getTimeZone("GMT+03:00")
+        timeZone = TimeZone.getTimeZone("GMT-03:00")
     }.time
+}
+
+fun Date.getBeginningOfTheDay(): Date {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+
+    calendar.set(Calendar.HOUR_OF_DAY, 0)
+    calendar.set(Calendar.MINUTE, 0)
+    calendar.set(Calendar.SECOND, 0)
+    calendar.set(Calendar.MILLISECOND, 0)
+
+    return calendar.time
 }

@@ -2,10 +2,7 @@ package com.albuquerque.cryptoe_wallet.app.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
-import com.albuquerque.cryptoe_wallet.app.dao.CryptocurrencyDao
-import com.albuquerque.cryptoe_wallet.app.dao.SessionDao
-import com.albuquerque.cryptoe_wallet.app.dao.TransactionDao
-import com.albuquerque.cryptoe_wallet.app.dao.UserDao
+import com.albuquerque.cryptoe_wallet.app.dao.*
 import com.albuquerque.cryptoe_wallet.app.model.entity.*
 import com.albuquerque.cryptoe_wallet.app.utils.Session
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +13,7 @@ class LocalRepository(
     private val userDao: UserDao,
     private val sessionDao: SessionDao,
     private val cryptocurrencyDao: CryptocurrencyDao,
+    private val userCryptocurrencyDao: UserCryptocurrencyDao,
     private val transactionDao: TransactionDao
 ) {
 
@@ -32,10 +30,12 @@ class LocalRepository(
 
     suspend fun signUp(user: UserEntity): UserEntity {
         return cryptocurrencyDao.getCurrenciesAndInsertWithUser(user) {
+            userDao.insert(user)
+
             cryptocurrencyDao.getAll().forEach {
-                userDao.insert(user)
-                cryptocurrencyDao.insertUserWithCurrency(UserCurrency(user.email, it.name, BigDecimal(0)))
+                userCryptocurrencyDao.insert(UserCryptocurrencyEntity(it.name, user.email, it.buy, it.sell, BigDecimal.ZERO))
             }
+
         }
     }
 
@@ -50,7 +50,7 @@ class LocalRepository(
 
     suspend fun clearSession() {
         sessionDao.deleteAll()
-        cryptocurrencyDao.deleteAll()
+        userCryptocurrencyDao.deleteAll()
         transactionDao.deleteAll()
     }
 
@@ -60,22 +60,21 @@ class LocalRepository(
 
     suspend fun saveCurrency(currency: CryptocurrencyEntity) {
         cryptocurrencyDao.insert(currency)
+        userCryptocurrencyDao.updateValues(currency)
     }
 
-    fun getCurrencies(): Flow<List<UserWithCurrencies>> = cryptocurrencyDao.getUserWithCurrencies()
+    suspend fun saveUserCurrency(userCurrency: UserCryptocurrencyEntity){
+        userCryptocurrencyDao.insert(userCurrency)
+    }
+
+    fun getCurrencies(): Flow<List<UserCryptocurrencyEntity>> = cryptocurrencyDao.getUserCurrencies()
 
     fun getTransactions(): Flow<List<UserWithTransactions>> = transactionDao.getUserWithTransactions()
 
-    fun getCriptoCurrencyByNameAsLiveData(name: String): LiveData<CryptocurrencyEntity?> = cryptocurrencyDao.getByNameAsLiveData(name)
+    fun getCriptoCurrencyByNameAsLiveData(name: String): LiveData<UserCryptocurrencyEntity?> = cryptocurrencyDao.getByNameAsLiveData(name)
 
-    suspend fun getCriptoCurrencyByName(name: String): CryptocurrencyEntity? = cryptocurrencyDao.getByName(name)
-
-    suspend fun saveUserCurrency(userId: String, currencyId: String, amount: BigDecimal) {
-        cryptocurrencyDao.insertUserWithCurrency(UserCurrency(userId, currencyId, amount))
-    }
-
-    suspend fun saveTransaction(userId: String, sourceCurrency: String, targetCurrency: String, typeTransaction: Int) {
-        val transaction = TransactionEntity(sourceCurrency, targetCurrency, typeTransaction)
+    suspend fun saveTransaction(userId: String, sourceCurrency: String, targetCurrency: String, typeTransaction: Int, amount: BigDecimal) {
+        val transaction = TransactionEntity(sourceCurrency, targetCurrency, typeTransaction, amount)
         transactionDao.insert(transaction)
         transactionDao.insertUserWithTransaction(UserTransaction(userId, transaction.date))
     }

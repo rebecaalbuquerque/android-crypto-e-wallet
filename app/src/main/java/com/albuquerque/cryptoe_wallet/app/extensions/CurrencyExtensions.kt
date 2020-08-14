@@ -10,7 +10,7 @@ fun BigDecimal?.toBrazilianCurrency(): String{
 
         return "R$ ".plus(
             (NumberFormat.getNumberInstance(Locale("pt", "BR")) as DecimalFormat).apply {
-                applyPattern("#,###,##0.0000")
+                applyPattern("#,###,##0.000000")
             }.format(this))
 
     } ?: kotlin.run {

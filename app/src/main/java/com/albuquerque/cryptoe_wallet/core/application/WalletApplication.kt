@@ -45,11 +45,12 @@ class WalletApplication: Application() {
                 single { get<AppDatabase>().sessionDao }
                 single { get<AppDatabase>().cryptocurrencyDao }
                 single { get<AppDatabase>().transactionDao }
+                single { get<AppDatabase>().userCryptocurrencyDao }
             }
 
             val repositoryModule = module {
                 factory { RemoteRepository() }
-                factory { LocalRepository(userDao = get(), sessionDao = get(), cryptocurrencyDao = get(), transactionDao = get()) }
+                factory { LocalRepository(userDao = get(), sessionDao = get(), cryptocurrencyDao = get(), transactionDao = get(), userCryptocurrencyDao = get()) }
                 factory { Repository(remote = get(), local = get()) }
             }
 

@@ -5,12 +5,12 @@ import com.albuquerque.cryptoe_wallet.app.model.dto.BritaDTO
 import com.albuquerque.cryptoe_wallet.app.model.dto.CryptocurrencyDTO
 import com.albuquerque.cryptoe_wallet.app.model.entity.CryptocurrencyEntity
 import com.albuquerque.cryptoe_wallet.app.model.entity.TransactionEntity
+import com.albuquerque.cryptoe_wallet.app.model.entity.UserCryptocurrencyEntity
 import com.albuquerque.cryptoe_wallet.app.model.entity.UserEntity
 import com.albuquerque.cryptoe_wallet.app.model.ui.CryptocurrencyUI
 import com.albuquerque.cryptoe_wallet.app.model.ui.TransactionUI
 import com.albuquerque.cryptoe_wallet.app.model.ui.UserUI
 import com.albuquerque.cryptoe_wallet.app.utils.TypeCryptocurrency
-import java.math.BigDecimal
 
 fun BritaDTO.toCryptocurrencyDTO(): CryptocurrencyDTO {
     return CryptocurrencyDTO(
@@ -50,16 +50,25 @@ fun CryptocurrencyEntity.toUI(): CryptocurrencyUI {
     return CryptocurrencyUI(
         this.name,
         this.buy,
-        this.sell,
+        this.sell
+    )
+}
+
+fun CryptocurrencyUI.toEntity(user: String): UserCryptocurrencyEntity {
+    return UserCryptocurrencyEntity(
+        this.name,
+        user,
+        this.buyValue,
+        this.sellValue,
         this.amount
     )
 }
 
-fun CryptocurrencyUI.toEntity(): CryptocurrencyEntity {
-    return CryptocurrencyEntity(
-        this.name,
-        this.buyValue,
-        this.sellValue,
+fun UserCryptocurrencyEntity.toUI(): CryptocurrencyUI {
+    return CryptocurrencyUI(
+        this.currency,
+        this.buy,
+        this.sell,
         this.amount
     )
 }
@@ -68,8 +77,7 @@ fun CryptocurrencyDTO.toEntity(): CryptocurrencyEntity {
     return CryptocurrencyEntity(
         this.name,
         this.buyValue!!,
-        this.sellValue!!,
-        BigDecimal(0)
+        this.sellValue!!
     )
 }
 
@@ -78,6 +86,7 @@ fun TransactionEntity.toUI(): TransactionUI {
         this.sourceCurrency,
         this.targetCurrency,
         this.typeTransaction,
+        this.amount,
         this.date
     )
 }
