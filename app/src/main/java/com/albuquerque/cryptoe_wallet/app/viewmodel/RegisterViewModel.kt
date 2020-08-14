@@ -7,6 +7,7 @@ import com.albuquerque.cryptoe_wallet.app.model.entity.UserEntity
 import com.albuquerque.cryptoe_wallet.app.usecase.SignUpUseCase
 import com.albuquerque.cryptoe_wallet.core.viewmodel.BaseViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
@@ -27,6 +28,8 @@ class RegisterViewModel(
 
                 try {
                     signUpUseCase.invoke(UserEntity(email.get().toString(), password.get().toString(), fullName.get().toString()))
+
+                    delay(1500)
                     onRegisterSucessfull.postValue("Registro finalizado! Você já está pronto para utilizar a Crypto E-wallet!")
                 } catch (e: Exception) {
                     onError.postValue("Erro ao criar novo usuário")

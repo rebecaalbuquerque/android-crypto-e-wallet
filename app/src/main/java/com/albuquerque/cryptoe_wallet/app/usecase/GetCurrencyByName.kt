@@ -10,9 +10,9 @@ class GetCurrencyByName(
     private val repository: Repository
 ) {
 
-    fun invoke(name: String): LiveData<CryptocurrencyUI> {
+    fun invoke(name: String): LiveData<CryptocurrencyUI?> {
         return repository.getCriptoCurrencyByName(name).map {
-            it.toUI()
+            it?.toUI()
         }
     }
 

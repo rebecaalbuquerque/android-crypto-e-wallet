@@ -12,14 +12,20 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CryptocurrencyDao: BaseDao<CryptocurrencyEntity> {
 
+    @Query("DELETE FROM session")
+    suspend fun deleteAll()
+
     @Query("select * from cryptocurrency")
     fun getAll(): List<CryptocurrencyEntity>
 
     @Query("select * from cryptocurrency WHERE name=:name")
-    fun getByName(name: String): LiveData<CryptocurrencyEntity>
+    fun getByNameAsLiveData(name: String): LiveData<CryptocurrencyEntity?>
+
+    @Query("select * from cryptocurrency WHERE name=:name")
+    suspend fun getByName(name: String): CryptocurrencyEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUserWithCurrencies(join: UserCurrency)
+    suspend fun insertUserWithCurrency(join: UserCurrency)
 
     @Transaction
     suspend fun getCurrenciesAndInsertWithUser(user: UserEntity, action: suspend () -> Unit): UserEntity {
@@ -30,5 +36,8 @@ interface CryptocurrencyDao: BaseDao<CryptocurrencyEntity> {
     @Transaction
     @Query("select * from user")
     fun getUserWithCurrencies(): Flow<List<UserWithCurrencies>>
+
+    @Query("SELECT * FROM usercurrency WHERE email=:userId AND name=:currencyId")
+    fun getUserCurrencyById(userId: String, currencyId: String): LiveData<UserCurrency>
 
 }

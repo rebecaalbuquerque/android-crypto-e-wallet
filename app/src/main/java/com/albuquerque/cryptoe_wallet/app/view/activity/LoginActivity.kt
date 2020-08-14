@@ -40,6 +40,7 @@ class LoginActivity : BaseActivity() {
                 startActivity(
                     Intent(this@LoginActivity, MainActivity::class.java)
                 )
+                finish()
             }
 
             onRegisterClicked.observe(this@LoginActivity) {

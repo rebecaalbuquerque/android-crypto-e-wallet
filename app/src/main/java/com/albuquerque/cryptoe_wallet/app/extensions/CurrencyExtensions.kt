@@ -10,13 +10,35 @@ fun BigDecimal?.toBrazilianCurrency(): String{
 
         return "R$ ".plus(
             (NumberFormat.getNumberInstance(Locale("pt", "BR")) as DecimalFormat).apply {
-                applyPattern("#,###,##0.00")
+                applyPattern("#,###,##0.0000")
             }.format(this))
 
     } ?: kotlin.run {
         return ""
     }
 
+}
+
+fun BigDecimal?.toBrazilianCurrency(zeros: Int = 4): String{
+    this?.let {
+
+        return "R$ ".plus(
+            (NumberFormat.getNumberInstance(Locale("pt", "BR")) as DecimalFormat).apply {
+                applyPattern("#,###,##0.${"0".repeat(zeros)}")
+            }.format(this))
+
+    } ?: kotlin.run {
+        return ""
+    }
+
+}
+
+fun String.toBigDecimal(): BigDecimal {
+    return when {
+        this.isEmpty() -> BigDecimal(0)
+        this.contains("R$ ") -> BigDecimal(this.replace("R$ ", "").replace(".", "#").replace(",", ".").replace("#", ""))
+        else -> BigDecimal(this)
+    }
 }
 
 fun BigDecimal?.plus(value: String?): String {
