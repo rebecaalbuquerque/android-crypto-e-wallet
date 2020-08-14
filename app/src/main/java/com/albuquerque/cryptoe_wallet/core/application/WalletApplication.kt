@@ -63,32 +63,17 @@ class WalletApplication: Application() {
                 factory { GetUserCurrenciesUseCase(repository = get()) }
                 factory { GetCurrencyByName(repository = get()) }
                 factory { CreateTransactionUseCase(repository = get()) }
+                factory { GetTransactionsUseCase(repository = get()) }
             }
 
             val viewModelModule = module {
-                viewModel {
-                    SplashViewModel(
-                        checkHasLoggedUserUseCase = get(),
-                        getCurrenciesUseCase = get()
-                    )
-                }
-                viewModel {
-                    RegisterViewModel(
-                        signUpUseCase = get()
-                    )
-                }
-                viewModel {
-                    LoginViewModel(
-                        signInUseCase = get()
-                    )
-                }
-                viewModel {
-                    SessionViewModel(
-                        clearSessionUseCase = get()
-                    )
-                }
+                viewModel { SplashViewModel(checkHasLoggedUserUseCase = get(), getCurrenciesUseCase = get()) }
+                viewModel { RegisterViewModel(signUpUseCase = get()) }
+                viewModel { LoginViewModel(signInUseCase = get()) }
+                viewModel { SessionViewModel(clearSessionUseCase = get()) }
                 viewModel { WalletViewModel(getLoggedUserUseCase = get(), getUserCurrenciesUseCase = get()) }
                 viewModel { TransactionViewModel(getLoggedUserUseCase = get(), getCurrencyByName = get(), createTransactionUseCase = get()) }
+                viewModel { BankStatementViewModel(getTransactionsUseCase = get()) }
             }
 
             modules(listOf(databaseModule, repositoryModule, useCaseModule, viewModelModule))

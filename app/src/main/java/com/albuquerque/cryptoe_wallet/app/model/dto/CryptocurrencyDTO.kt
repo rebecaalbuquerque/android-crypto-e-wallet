@@ -4,6 +4,6 @@ import java.math.BigDecimal
 
 data class CryptocurrencyDTO(
     val name: String,
-    val buyValue: BigDecimal,
-    val sellValue: BigDecimal
+    val buyValue: BigDecimal?,
+    val sellValue: BigDecimal?
 )

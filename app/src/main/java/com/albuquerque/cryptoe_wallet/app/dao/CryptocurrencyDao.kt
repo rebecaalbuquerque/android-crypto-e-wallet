@@ -6,6 +6,7 @@ import com.albuquerque.cryptoe_wallet.app.model.entity.CryptocurrencyEntity
 import com.albuquerque.cryptoe_wallet.app.model.entity.UserCurrency
 import com.albuquerque.cryptoe_wallet.app.model.entity.UserEntity
 import com.albuquerque.cryptoe_wallet.app.model.entity.UserWithCurrencies
+import com.albuquerque.cryptoe_wallet.app.utils.Session
 import com.albuquerque.cryptoe_wallet.core.database.BaseDao
 import kotlinx.coroutines.flow.Flow
 
@@ -34,8 +35,8 @@ interface CryptocurrencyDao: BaseDao<CryptocurrencyEntity> {
     }
 
     @Transaction
-    @Query("select * from user")
-    fun getUserWithCurrencies(): Flow<List<UserWithCurrencies>>
+    @Query("select * from user WHERE email=:user")
+    fun getUserWithCurrencies(user: String = Session.userLogged): Flow<List<UserWithCurrencies>>
 
     @Query("SELECT * FROM usercurrency WHERE email=:userId AND name=:currencyId")
     fun getUserCurrencyById(userId: String, currencyId: String): LiveData<UserCurrency>

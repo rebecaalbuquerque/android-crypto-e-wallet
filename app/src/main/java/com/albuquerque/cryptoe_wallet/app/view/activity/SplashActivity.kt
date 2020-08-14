@@ -55,9 +55,9 @@ class SplashActivity : BaseActivity() {
             }
 
             onError.observe(this@SplashActivity) {
-                logo.setGone()
+                /*logo.setGone()
                 messageError.setVisible()
-                tryAgain.setVisible()
+                tryAgain.setVisible()*/
             }
 
         }

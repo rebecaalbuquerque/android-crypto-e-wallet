@@ -30,6 +30,8 @@ fun String.parse(pattern: String? = "dd/MM/yyyy"): Date {
     return result
 }
 
+fun Long.format(pattern: String): String = Date(this).format(pattern)
+
 fun Date.add(field: Int, amount: Int): Date {
     val calendar = Calendar.getInstance()
     calendar.add(field, -amount)

@@ -5,6 +5,7 @@ import com.albuquerque.cryptoe_wallet.app.model.dto.CryptocurrencyDTO
 import com.albuquerque.cryptoe_wallet.app.model.entity.CryptocurrencyEntity
 import com.albuquerque.cryptoe_wallet.app.model.entity.UserEntity
 import com.albuquerque.cryptoe_wallet.app.model.entity.UserWithCurrencies
+import com.albuquerque.cryptoe_wallet.app.model.entity.UserWithTransactions
 import com.albuquerque.cryptoe_wallet.app.model.toEntity
 import com.albuquerque.cryptoe_wallet.app.utils.TypeCryptocurrency
 import com.albuquerque.cryptoe_wallet.app.utils.TypeCryptocurrency.BITCOIN
@@ -46,12 +47,15 @@ class Repository(
 
             BRITA -> remote.fetchBritaInfo()
                 .onSuccess { brita ->
-                    local.saveCurrency(brita.toEntity().apply { restoreFromDB() })
+                    if(brita.buyValue != null || brita.sellValue != null)
+                        local.saveCurrency(brita.toEntity().apply { restoreFromDB() })
                 }
         }
     }
 
     fun getCriptoCurrencies(): Flow<List<UserWithCurrencies>> = local.getCurrencies()
+
+    fun getTransactions(): Flow<List<UserWithTransactions>> = local.getTransactions()
 
     fun getCriptoCurrencyByName(name: String): LiveData<CryptocurrencyEntity?> = local.getCriptoCurrencyByNameAsLiveData(name)
 

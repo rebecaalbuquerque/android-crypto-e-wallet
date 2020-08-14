@@ -1,13 +1,10 @@
 package com.albuquerque.cryptoe_wallet.app.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.albuquerque.cryptoe_wallet.app.model.entity.TransactionEntity
-import com.albuquerque.cryptoe_wallet.app.model.entity.UserCurrency
-import com.albuquerque.cryptoe_wallet.app.model.entity.UserTransaction
+import androidx.room.*
+import com.albuquerque.cryptoe_wallet.app.model.entity.*
+import com.albuquerque.cryptoe_wallet.app.utils.Session
 import com.albuquerque.cryptoe_wallet.core.database.BaseDao
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TransactionDao: BaseDao<TransactionEntity> {
@@ -17,5 +14,9 @@ interface TransactionDao: BaseDao<TransactionEntity> {
 
     @Query("DELETE FROM session")
     suspend fun deleteAll()
+
+    @Transaction
+    @Query("select * from user WHERE email=:user")
+    fun getUserWithTransactions(user: String = Session.userLogged): Flow<List<UserWithTransactions>>
 
 }

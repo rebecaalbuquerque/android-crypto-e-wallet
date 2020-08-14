@@ -64,6 +64,8 @@ class LocalRepository(
 
     fun getCurrencies(): Flow<List<UserWithCurrencies>> = cryptocurrencyDao.getUserWithCurrencies()
 
+    fun getTransactions(): Flow<List<UserWithTransactions>> = transactionDao.getUserWithTransactions()
+
     fun getCriptoCurrencyByNameAsLiveData(name: String): LiveData<CryptocurrencyEntity?> = cryptocurrencyDao.getByNameAsLiveData(name)
 
     suspend fun getCriptoCurrencyByName(name: String): CryptocurrencyEntity? = cryptocurrencyDao.getByName(name)
