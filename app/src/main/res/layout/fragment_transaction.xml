@@ -49,20 +49,32 @@
                         android:layout_height="wrap_content"
                         android:text="@{`Seu saldo é ` + CurrencyExtensionsKt.toBrazilianCurrency(viewModel.user.balance)}"
                         android:textColor="@color/textColorPrimary"
-                        app:layout_constraintBottom_toTopOf="@+id/currencyTransactionPrice"
+                        app:layout_constraintBottom_toTopOf="@+id/currencySourceTransactionPrice"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Seu saldo é" />
 
                     <TextView
-                        android:id="@+id/currencyTransactionPrice"
+                        android:id="@+id/currencySourceTransactionPrice"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColorPrimary"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:currency="@{viewModel.sourceCurrency}"
+                        app:layout_constraintBottom_toTopOf="@id/currencyTargetTransactionPrice"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/balance"
-                        app:sourceCurrency="@{viewModel.cryptocurrency}"
+                        app:typeTransaction="@{viewModel.typeTransaction}"
+                        tools:text="Uma unidade de Bitcoin custa R$ 63.252,53" />
+
+                    <TextView
+                        android:id="@+id/currencyTargetTransactionPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textColorPrimary"
+                        app:currency="@{viewModel.targetCurrency}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/currencySourceTransactionPrice"
                         app:typeTransaction="@{viewModel.typeTransaction}"
                         tools:text="Uma unidade de Bitcoin custa R$ 63.252,53" />
 
@@ -95,15 +107,28 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/totalAmount"
+                android:id="@+id/exchange"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="56dp"
-                android:text="@{`Valor total da operação: ` + viewModel.totalValue}"
+                android:textAlignment="center"
+                android:text="@{`Troca de ` + viewModel.sourceCurrency.name + ` por ` + viewModel.targetCurrency.name}"
                 android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="@id/inputAmount"
                 app:layout_constraintStart_toStartOf="@id/inputAmount"
                 app:layout_constraintTop_toBottomOf="@id/inputAmount"
+                tools:text="Bitcoin por Brita " />
+
+            <TextView
+                android:id="@+id/totalAmount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{`Valor total da operação: ` + viewModel.totalValue}"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="@id/inputAmount"
+                app:layout_constraintStart_toStartOf="@id/inputAmount"
+                app:layout_constraintTop_toBottomOf="@id/exchange"
                 tools:text="Valor total da operação: " />
 
             <TextView

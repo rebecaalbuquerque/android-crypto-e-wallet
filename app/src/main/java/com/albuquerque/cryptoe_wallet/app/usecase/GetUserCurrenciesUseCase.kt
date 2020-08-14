@@ -2,7 +2,7 @@ package com.albuquerque.cryptoe_wallet.app.usecase
 
 import com.albuquerque.cryptoe_wallet.app.model.toUI
 import com.albuquerque.cryptoe_wallet.app.repository.Repository
-import com.albuquerque.cryptoe_wallet.app.utils.TypeCriptocurrency
+import com.albuquerque.cryptoe_wallet.app.utils.TypeCryptocurrency
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -28,8 +28,8 @@ class GetUserCurrenciesUseCase(
     suspend fun executeFromApi(): Result<String> {
 
         return try {
-            repository.fetchCriptoCurrency(TypeCriptocurrency.BITCOIN)
-            repository.fetchCriptoCurrency(TypeCriptocurrency.BRITA)
+            repository.fetchCriptoCurrency(TypeCryptocurrency.BITCOIN)
+            repository.fetchCriptoCurrency(TypeCryptocurrency.BRITA)
             Result.success("")
         } catch (e: Exception) {
             Result.failure(e.cause ?: Throwable("Erro ao atualizar as criptomoedas."))

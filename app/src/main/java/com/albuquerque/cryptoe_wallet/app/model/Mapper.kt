@@ -7,6 +7,7 @@ import com.albuquerque.cryptoe_wallet.app.model.entity.CryptocurrencyEntity
 import com.albuquerque.cryptoe_wallet.app.model.entity.UserEntity
 import com.albuquerque.cryptoe_wallet.app.model.ui.CryptocurrencyUI
 import com.albuquerque.cryptoe_wallet.app.model.ui.UserUI
+import com.albuquerque.cryptoe_wallet.app.utils.TypeCryptocurrency
 import java.math.BigDecimal
 
 
@@ -57,7 +58,7 @@ fun CryptocurrencyDTO.toEntity(): CryptocurrencyEntity {
 
 fun BritaDTO.toCryptocurrencyDTO(): CryptocurrencyDTO {
     return CryptocurrencyDTO(
-        "Brita",
+        TypeCryptocurrency.BRITA.value,
         this.value.last { it.tipoBoletim == "Fechamento PTAX" || it.tipoBoletim == "Abertura" || it.tipoBoletim == "Intermediário" }.cotacaoCompra,
         this.value.last { it.tipoBoletim == "Fechamento PTAX" || it.tipoBoletim == "Abertura" || it.tipoBoletim == "Intermediário" }.cotacaoVenda
     )
@@ -65,7 +66,7 @@ fun BritaDTO.toCryptocurrencyDTO(): CryptocurrencyDTO {
 
 fun BitcoinDTO.toCryptocurrencyDTO(): CryptocurrencyDTO {
     return CryptocurrencyDTO(
-        "Bitcoin",
+        TypeCryptocurrency.BITCOIN.value,
         this.ticker.buy,
         this.ticker.sell
     )

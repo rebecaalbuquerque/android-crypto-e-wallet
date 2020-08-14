@@ -6,9 +6,9 @@ import com.albuquerque.cryptoe_wallet.app.model.entity.CryptocurrencyEntity
 import com.albuquerque.cryptoe_wallet.app.model.entity.UserEntity
 import com.albuquerque.cryptoe_wallet.app.model.entity.UserWithCurrencies
 import com.albuquerque.cryptoe_wallet.app.model.toEntity
-import com.albuquerque.cryptoe_wallet.app.utils.TypeCriptocurrency
-import com.albuquerque.cryptoe_wallet.app.utils.TypeCriptocurrency.BITCOIN
-import com.albuquerque.cryptoe_wallet.app.utils.TypeCriptocurrency.BRITA
+import com.albuquerque.cryptoe_wallet.app.utils.TypeCryptocurrency
+import com.albuquerque.cryptoe_wallet.app.utils.TypeCryptocurrency.BITCOIN
+import com.albuquerque.cryptoe_wallet.app.utils.TypeCryptocurrency.BRITA
 import com.albuquerque.cryptoe_wallet.app.utils.TypeTransaction
 import com.albuquerque.cryptoe_wallet.app.utils.TypeTransaction.*
 import kotlinx.coroutines.flow.Flow
@@ -37,8 +37,8 @@ class Repository(
         return local.signIn(email, password)
     }
 
-    suspend fun fetchCriptoCurrency(typeCriptocurrency: TypeCriptocurrency): Result<CryptocurrencyDTO> {
-        return when (typeCriptocurrency) {
+    suspend fun fetchCriptoCurrency(typeCryptocurrency: TypeCryptocurrency): Result<CryptocurrencyDTO> {
+        return when (typeCryptocurrency) {
             BITCOIN -> remote.fetchBicoinInfo()
                 .onSuccess { bitcoin ->
                     local.saveCurrency(bitcoin.toEntity().apply { restoreFromDB() })
@@ -59,18 +59,35 @@ class Repository(
         local.clearSession()
     }
 
-    suspend fun createTransaction(typeTransaction: TypeTransaction, user: UserEntity, cryptocurrency: CryptocurrencyEntity, amountRequested: BigDecimal) {
+    suspend fun createTransaction(typeTransaction: TypeTransaction, user: UserEntity, sourceCurrency: CryptocurrencyEntity, targetCurrency: CryptocurrencyEntity, amountRequested: BigDecimal) {
         //  atualiza usuário com sua moeda (UserCurrency) e insere uma transacao (TransactionEntity e UserTransaction)
         when(typeTransaction) {
-            SALE -> cryptocurrency.apply { amount -= amountRequested }
-            PURCHASE -> cryptocurrency.apply { amount += amountRequested }
-            EXCHANGE -> {}
+            SALE -> {
+                sourceCurrency.apply { amount -= amountRequested }
+                local.saveCurrency(sourceCurrency)
+                local.saveUser(user)
+                local.saveUserCurrency(user.email, sourceCurrency.name, sourceCurrency.amount)
+                local.saveTransaction(user.email, sourceCurrency.name, sourceCurrency.name, typeTransaction.id)
+            }
+
+            PURCHASE -> {
+                sourceCurrency.apply { amount += amountRequested }
+                local.saveCurrency(sourceCurrency)
+                local.saveUser(user)
+                local.saveUserCurrency(user.email, sourceCurrency.name, sourceCurrency.amount)
+                local.saveTransaction(user.email, sourceCurrency.name, sourceCurrency.name, typeTransaction.id)
+            }
+
+            EXCHANGE -> {
+                sourceCurrency.apply { amount -= amountRequested }
+                targetCurrency.apply { amount += amountRequested }
+                local.saveCurrency(sourceCurrency)
+                local.saveCurrency(targetCurrency)
+                local.saveUserCurrency(user.email, sourceCurrency.name, targetCurrency.amount)
+                local.saveTransaction(user.email, sourceCurrency.name, targetCurrency.name, typeTransaction.id)
+            }
         }
 
-        local.saveCurrency(cryptocurrency)
-        local.saveUser(user)
-        local.saveUserCurrency(user.email, cryptocurrency.name, cryptocurrency.amount)
-        local.saveTransaction(user.email, cryptocurrency.name, cryptocurrency.name, typeTransaction.id)
     }
 
     private suspend fun CryptocurrencyEntity.restoreFromDB() {

@@ -19,6 +19,20 @@ fun BigDecimal?.toBrazilianCurrency(): String{
 
 }
 
+fun BigDecimal?.toBrazilianCurrency(zeros: Int = 4): String{
+    this?.let {
+
+        return "R$ ".plus(
+            (NumberFormat.getNumberInstance(Locale("pt", "BR")) as DecimalFormat).apply {
+                applyPattern("#,###,##0.${"0".repeat(zeros)}")
+            }.format(this))
+
+    } ?: kotlin.run {
+        return ""
+    }
+
+}
+
 fun String.toBigDecimal(): BigDecimal {
     return when {
         this.isEmpty() -> BigDecimal(0)

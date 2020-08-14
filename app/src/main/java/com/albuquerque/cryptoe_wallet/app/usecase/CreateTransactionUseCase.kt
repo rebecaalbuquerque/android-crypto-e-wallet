@@ -11,8 +11,8 @@ class CreateTransactionUseCase(
     private val repository: Repository
 ) {
 
-    suspend fun invoke(typeTransaction: TypeTransaction, user: UserUI, cryptocurrency: CryptocurrencyUI, amountRequested: BigDecimal) {
-        repository.createTransaction(typeTransaction, user.toEntity(), cryptocurrency.toEntity(), amountRequested)
+    suspend fun invoke(typeTransaction: TypeTransaction, user: UserUI, sourceCurrency: CryptocurrencyUI, targetCurrency: CryptocurrencyUI, amountRequested: BigDecimal) {
+        repository.createTransaction(typeTransaction, user.toEntity(), sourceCurrency.toEntity(), targetCurrency.toEntity(), amountRequested)
     }
 
 }

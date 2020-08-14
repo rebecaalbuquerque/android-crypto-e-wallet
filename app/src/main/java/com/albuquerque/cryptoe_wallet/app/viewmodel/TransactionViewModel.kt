@@ -12,6 +12,8 @@ import com.albuquerque.cryptoe_wallet.app.usecase.GetCurrencyByName
 import com.albuquerque.cryptoe_wallet.app.usecase.GetLoggedUserUseCase
 import com.albuquerque.cryptoe_wallet.app.utils.StatusTransaction
 import com.albuquerque.cryptoe_wallet.app.utils.StatusTransaction.*
+import com.albuquerque.cryptoe_wallet.app.utils.TypeCryptocurrency
+import com.albuquerque.cryptoe_wallet.app.utils.TypeCryptocurrency.*
 import com.albuquerque.cryptoe_wallet.app.utils.TypeTransaction
 import com.albuquerque.cryptoe_wallet.core.mediator.SingleMediatorLiveData
 import com.albuquerque.cryptoe_wallet.core.utils.WalletCalculator
@@ -32,7 +34,8 @@ class TransactionViewModel(
     var amount = ObservableField<String>("")
 
     var user = getLoggedUserUseCase.invoke()
-    var cryptocurrency = SingleMediatorLiveData<CryptocurrencyUI?>()
+    var sourceCurrency = SingleMediatorLiveData<CryptocurrencyUI?>()
+    var targetCurrency = SingleMediatorLiveData<CryptocurrencyUI?>()
     var typeTransaction: TypeTransaction? = null
 
     private var totalValueStatus: StatusTransaction = AVAILABLE_TRANSACTION
@@ -44,13 +47,19 @@ class TransactionViewModel(
             if(value != null) {
                 field = value
                 viewModelScope.launch {
-                    cryptocurrency.emit(getCurrencyByName.invoke(value))
+                    sourceCurrency.emit(getCurrencyByName.invoke(value))
+
+                    if(value == BITCOIN.value)
+                        targetCurrency.emit(getCurrencyByName.invoke(BRITA.value))
+                    else
+                        targetCurrency.emit(getCurrencyByName.invoke(BITCOIN.value))
 
                 }
             }
         }
 
     init {
+
         amount.addOnPropertyChangedCallback(object : OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable, propertyId: Int) {
                 if (sender === amount && amount.get() != null) {
@@ -61,17 +70,18 @@ class TransactionViewModel(
                             totalValue.value = ""
                             newBalance.value = ""
                         } else {
-                            val currentTotalValue = WalletCalculator.calculateTransactionTotalValue(cryptocurrency.value, currentAmount.toBigDecimal(), user.value?.balance, typeTransaction)
+                            val currentTotalValue = WalletCalculator.calculateTransactionTotalValue(sourceCurrency.value, targetCurrency.value, currentAmount.toBigDecimal(), user.value?.balance, typeTransaction)
 
                             totalValueStatus = currentTotalValue.second
                             totalValue.value = currentTotalValue.first
-                            newBalance.value = WalletCalculator.calculateTransactionNewBalance(cryptocurrency.value, currentAmount.toBigDecimal(), user.value?.balance, typeTransaction)
+                            newBalance.value = WalletCalculator.calculateTransactionNewBalance(sourceCurrency.value, currentAmount.toBigDecimal(), user.value?.balance, typeTransaction)
                         }
                     }
 
                 }
             }
         })
+
     }
 
     fun finalizeTransaction() {
@@ -83,10 +93,16 @@ class TransactionViewModel(
             AVAILABLE_TRANSACTION -> {
                 viewModelScope.launch {
 
-                    if(typeTransaction == null || user.value == null || cryptocurrency.value == null || amount.get().isNullOrEmpty() || newBalance.value.isNullOrEmpty())
+                    if(typeTransaction == null || user.value == null || sourceCurrency.value == null || amount.get().isNullOrEmpty() || newBalance.value.isNullOrEmpty())
                         onError.value = "Impossível finalizar a operação."
                     else
-                        createTransactionUseCase.invoke(typeTransaction!!, user.value!!.apply { balance = newBalance.value!!.toBigDecimal() }, cryptocurrency.value!!, amount.get()!!.toBigDecimal())
+                        createTransactionUseCase.invoke(
+                            typeTransaction!!,
+                            user.value!!.apply { balance = newBalance.value!!.toBigDecimal() },
+                            sourceCurrency.value!!,
+                            targetCurrency.value!!,
+                            amount.get()!!.toBigDecimal()
+                        )
 
                     delay(1500)
                     onFinishLoading.postValue(Any())
@@ -96,7 +112,7 @@ class TransactionViewModel(
 
             UNAVAILABLE_TRANSACTION -> onError.value = "Impossível finalizar a operação."
 
-            INSUFFICIENT_FUNDS , INSUFFICIENT_CRYPTOCURRENCIES -> onError.value = totalValue.value
+            INSUFFICIENT_FUNDS -> onError.value = totalValue.value
 
         }
 

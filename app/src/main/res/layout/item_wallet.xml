@@ -5,9 +5,9 @@
 
     <data>
 
-        <import type="java.math.BigDecimal"/>
+        <import type="java.math.BigDecimal" />
 
-        <import type="com.albuquerque.cryptoe_wallet.app.extensions.CurrencyExtensionsKt"/>
+        <import type="com.albuquerque.cryptoe_wallet.app.extensions.CurrencyExtensionsKt" />
 
         <variable
             name="currency"
@@ -38,21 +38,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Bitcoin" />
-
-            <TextView
-                android:id="@+id/currencyAmount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@{currency.amount.compareTo(BigDecimal.ZERO) > 0 ? `você possui ` + currency.amount + ` moedas` : `você ainda não tem unidades dessa moeda`}"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/currencyName"
-                app:layout_constraintEnd_toEndOf="@+id/sellValue"
-                app:layout_constraintStart_toEndOf="@id/barrier"
-                tools:text="você possui 1,4 moedas" />
 
             <TextView
                 android:id="@+id/labelBuyValue"
@@ -95,7 +80,8 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout"
                 app:layout_constraintStart_toStartOf="@id/labelSellValue"
-                app:layout_constraintTop_toBottomOf="@id/labelSellValue" />
+                app:layout_constraintTop_toBottomOf="@id/labelSellValue"
+                tools:text="R$ 11127,90" />
 
             <TextView
                 android:id="@+id/labelTotal"
@@ -103,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/wallet_label_valor_total"
-                app:layout_constraintEnd_toEndOf="@+id/buyValue"
+                app:layout_constraintEnd_toEndOf="@+id/sellValue"
                 app:layout_constraintStart_toStartOf="@id/buyValue"
                 app:layout_constraintTop_toBottomOf="@id/buyValue" />
 
@@ -111,13 +97,14 @@
                 android:id="@+id/total"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@{CurrencyExtensionsKt.toBrazilianCurrency(currency.amountValue)}"
+                android:layout_marginBottom="12dp"
+                android:text="@{CurrencyExtensionsKt.toBrazilianCurrency(currency.amount, 7)}"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="@+id/labelTotal"
                 app:layout_constraintStart_toStartOf="@id/labelTotal"
-                app:layout_constraintTop_toBottomOf="@id/labelTotal" />
+                app:layout_constraintTop_toBottomOf="@id/labelTotal"
+                tools:text="R$ 343434,90" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -161,13 +148,6 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.5" />
 
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="end"
-                app:constraint_referenced_ids="currencyName"
-                app:layout_constraintStart_toEndOf="@id/currencyName" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

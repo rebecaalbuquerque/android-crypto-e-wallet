@@ -15,5 +15,5 @@
     <string name="toolbar_menu_logout">Sair</string>
     <string name="wallet_label_valor_compra">Valor de compra</string>
     <string name="wallet_label_valor_venda">Valor de venda</string>
-    <string name="wallet_label_valor_total">Valor total</string>
+    <string name="wallet_label_valor_total">Valor disponível na sua carteira</string>
 </resources>

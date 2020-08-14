@@ -49,6 +49,14 @@ class TransactionFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)?.supportActionBar?.title = typeTransaction.title
+
+        if(typeTransaction == TypeTransaction.EXCHANGE) {
+            exchange.setVisible()
+            currencySourceTransactionPrice.setVisible()
+        } else {
+            exchange.setGone()
+            currencySourceTransactionPrice.setGone()
+        }
     }
 
     private fun setupDataBinding() {
