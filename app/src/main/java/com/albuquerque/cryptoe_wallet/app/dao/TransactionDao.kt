@@ -12,9 +12,6 @@ interface TransactionDao: BaseDao<TransactionEntity> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUserWithTransaction(join: UserTransaction)
 
-    @Query("DELETE FROM session")
-    suspend fun deleteAll()
-
     @Transaction
     @Query("select * from user WHERE email=:user")
     fun getUserWithTransactions(user: String = Session.userLogged): Flow<List<UserWithTransactions>>

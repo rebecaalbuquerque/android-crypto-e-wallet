@@ -50,8 +50,6 @@ class LocalRepository(
 
     suspend fun clearSession() {
         sessionDao.deleteAll()
-        userCryptocurrencyDao.deleteAll()
-        transactionDao.deleteAll()
     }
 
     suspend fun saveUser(user: UserEntity) {

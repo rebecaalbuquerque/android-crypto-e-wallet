@@ -31,5 +31,18 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_transaction" />
 
+        <TextView
+            android:id="@+id/labelEmptyList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/empty_transactions"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
