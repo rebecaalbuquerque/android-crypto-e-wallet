@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.math.BigDecimal" />
+
+        <import type="com.albuquerque.cryptoe_wallet.app.extensions.CurrencyExtensionsKt" />
+
+        <variable
+            name="transaction"
+            type="com.albuquerque.cryptoe_wallet.app.model.ui.TransactionUI" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="12dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:text="@{transaction.dateFormatted}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="09 de Agosto de 2020 às 14h25" />
+
+            <TextView
+                android:id="@+id/typeTransaction"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:drawablePadding="8dp"
+                app:transactionName="@{transaction.typeTransaction}"
+                app:sourceCurrency="@{transaction.sourceCurrency}"
+                app:targetCurrency="@{transaction.targetCurrency}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date"
+                tools:text="Venda de Bitcoin" />
+
+            <TextView
+                android:id="@+id/valueTransaxtion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:typeTransaction="@{transaction.typeTransaction}"
+                app:amountTransaction="@{transaction.amount}"
+                android:textColor="@color/textColorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/typeTransaction"
+                app:layout_constraintTop_toBottomOf="@id/typeTransaction"
+                tools:text="5 moedas por R$ 31.4517,43" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

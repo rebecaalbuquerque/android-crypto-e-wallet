@@ -33,6 +33,11 @@ class SplashActivity : BaseActivity() {
         super.onPause()
     }
 
+    override fun onResume() {
+        super.onResume()
+        splashViewModel.fetchCurrencies()
+    }
+
     private fun subscribeUI() {
 
         with(splashViewModel) {
@@ -54,7 +59,12 @@ class SplashActivity : BaseActivity() {
 
             }
 
+            onStartLoading.observe(this@SplashActivity) {
+                progress.setVisible()
+            }
+
             onError.observe(this@SplashActivity) {
+                progress.setGone()
                 logo.setGone()
                 messageError.setVisible()
                 tryAgain.setVisible()

@@ -56,6 +56,11 @@ class WalletFragment : BaseFragment() {
         }
 
         recyclerViewWallet.adapter = currenciesAdapter
+
+        swipeRefresh.setOnRefreshListener {
+            walletViewModel.fetchCurrencies()
+            swipeRefresh.isRefreshing = false
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

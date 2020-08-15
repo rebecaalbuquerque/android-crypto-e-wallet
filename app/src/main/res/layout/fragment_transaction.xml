@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <import type="com.albuquerque.cryptoe_wallet.app.extensions.CurrencyExtensionsKt" />
 
         <variable
@@ -60,6 +62,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColorPrimary"
                         app:currency="@{viewModel.sourceCurrency}"
+                        android:visibility="@{viewModel.sourceCurrency.name.equals(viewModel.targetCurrency.name) ? View.GONE : View.VISIBLE}"
                         app:layout_constraintBottom_toTopOf="@id/currencyTargetTransactionPrice"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/balance"
@@ -112,6 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="56dp"
                 android:textAlignment="center"
+                android:visibility="@{viewModel.sourceCurrency.name.equals(viewModel.targetCurrency.name) ? View.GONE : View.VISIBLE}"
                 android:text="@{`Troca de ` + viewModel.sourceCurrency.name + ` por ` + viewModel.targetCurrency.name}"
                 android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="@id/inputAmount"
@@ -123,13 +127,14 @@
                 android:id="@+id/totalAmount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{`Valor total da operação: ` + viewModel.totalValue}"
+                app:typeTransaction="@{viewModel.typeTransaction}"
+                app:amount="@{viewModel.totalValue}"
                 android:textColor="@color/colorPrimaryDark"
                 android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="@id/inputAmount"
                 app:layout_constraintStart_toStartOf="@id/inputAmount"
                 app:layout_constraintTop_toBottomOf="@id/exchange"
-                tools:text="Valor total da operação: " />
+                tools:text="Valor a ser debitado: " />
 
             <TextView
                 android:id="@+id/newBalance"

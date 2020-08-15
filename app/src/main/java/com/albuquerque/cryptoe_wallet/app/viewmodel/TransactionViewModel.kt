@@ -12,14 +12,14 @@ import com.albuquerque.cryptoe_wallet.app.usecase.GetCurrencyByName
 import com.albuquerque.cryptoe_wallet.app.usecase.GetLoggedUserUseCase
 import com.albuquerque.cryptoe_wallet.app.utils.StatusTransaction
 import com.albuquerque.cryptoe_wallet.app.utils.StatusTransaction.*
-import com.albuquerque.cryptoe_wallet.app.utils.TypeCryptocurrency
 import com.albuquerque.cryptoe_wallet.app.utils.TypeCryptocurrency.*
 import com.albuquerque.cryptoe_wallet.app.utils.TypeTransaction
 import com.albuquerque.cryptoe_wallet.core.mediator.SingleMediatorLiveData
-import com.albuquerque.cryptoe_wallet.core.utils.WalletCalculator
+import com.albuquerque.cryptoe_wallet.app.utils.WalletCalculator
 import com.albuquerque.cryptoe_wallet.core.viewmodel.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 
 class TransactionViewModel(
@@ -49,10 +49,14 @@ class TransactionViewModel(
                 viewModelScope.launch {
                     sourceCurrency.emit(getCurrencyByName.invoke(value))
 
-                    if(value == BITCOIN.value)
-                        targetCurrency.emit(getCurrencyByName.invoke(BRITA.value))
-                    else
-                        targetCurrency.emit(getCurrencyByName.invoke(BITCOIN.value))
+                        if(typeTransaction != TypeTransaction.EXCHANGE) {
+                            targetCurrency.emit(getCurrencyByName.invoke(value))
+                        } else {
+                            if(value == BITCOIN.value)
+                                targetCurrency.emit(getCurrencyByName.invoke(BRITA.value))
+                            else
+                                targetCurrency.emit(getCurrencyByName.invoke(BITCOIN.value))
+                        }
 
                 }
             }
@@ -93,16 +97,29 @@ class TransactionViewModel(
             AVAILABLE_TRANSACTION -> {
                 viewModelScope.launch {
 
-                    if(typeTransaction == null || user.value == null || sourceCurrency.value == null || amount.get().isNullOrEmpty() || newBalance.value.isNullOrEmpty())
+                    if(typeTransaction == null || user.value == null || sourceCurrency.value == null || amount.get().isNullOrEmpty() || newBalance.value.isNullOrEmpty() || totalValue.value == null)
                         onError.value = "Impossível finalizar a operação."
-                    else
+                    else {
+                        val exchangeAmount: BigDecimal
+                        val currentAmount : BigDecimal
+
+                        if(typeTransaction == TypeTransaction.EXCHANGE) {
+                            currentAmount = totalValue.value!!.toBigDecimal()
+                            exchangeAmount = amount.get()!!.toBigDecimal()
+                        } else {
+                            currentAmount = amount.get()!!.toBigDecimal()
+                            exchangeAmount = BigDecimal.ZERO
+                        }
+
                         createTransactionUseCase.invoke(
                             typeTransaction!!,
                             user.value!!.apply { balance = newBalance.value!!.toBigDecimal() },
                             sourceCurrency.value!!,
                             targetCurrency.value!!,
-                            amount.get()!!.toBigDecimal()
+                            currentAmount,
+                            exchangeAmount
                         )
+                    }
 
                     delay(1500)
                     onFinishLoading.postValue(Any())

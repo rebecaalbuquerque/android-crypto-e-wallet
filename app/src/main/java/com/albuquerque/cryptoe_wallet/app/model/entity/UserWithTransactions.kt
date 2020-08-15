@@ -8,6 +8,6 @@ class UserWithTransactions(
     @Embedded
     val user: UserEntity,
 
-    @Relation(parentColumn = "email", entityColumn = "transactionId", associateBy = Junction(UserTransaction::class))
+    @Relation(parentColumn = "email", entityColumn = "date", associateBy = Junction(UserTransaction::class))
     val transactions: List<TransactionEntity>
 )

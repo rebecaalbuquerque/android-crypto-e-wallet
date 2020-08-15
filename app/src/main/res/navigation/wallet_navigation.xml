@@ -22,8 +22,9 @@
 
     <fragment
         android:id="@+id/history_destination"
-        android:name="com.albuquerque.cryptoe_wallet.app.view.fragment.HistoryFragment"
-        tools:layout="@layout/fragment_history" />
+        android:name="com.albuquerque.cryptoe_wallet.app.view.fragment.BankStatementFragment"
+        android:label="Extrato"
+        tools:layout="@layout/fragment_bank_statement" />
 
     <fragment
         android:id="@+id/transaction_destination"

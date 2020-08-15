@@ -77,7 +77,7 @@
                         android:id="@+id/editTextEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textNoSuggestions|textCapWords"
+                        android:inputType="textEmailAddress"
                         android:text="@={viewModel.email}"
                         android:textCursorDrawable="@null" />
 

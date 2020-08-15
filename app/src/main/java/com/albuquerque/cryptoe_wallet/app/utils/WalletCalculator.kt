@@ -1,10 +1,8 @@
-package com.albuquerque.cryptoe_wallet.core.utils
+package com.albuquerque.cryptoe_wallet.app.utils
 
 import com.albuquerque.cryptoe_wallet.app.extensions.toBrazilianCurrency
 import com.albuquerque.cryptoe_wallet.app.model.ui.CryptocurrencyUI
-import com.albuquerque.cryptoe_wallet.app.utils.StatusTransaction
 import com.albuquerque.cryptoe_wallet.app.utils.StatusTransaction.*
-import com.albuquerque.cryptoe_wallet.app.utils.TypeTransaction
 import com.albuquerque.cryptoe_wallet.app.utils.TypeTransaction.*
 import java.math.BigDecimal
 import java.math.MathContext

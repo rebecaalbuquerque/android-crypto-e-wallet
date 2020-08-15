@@ -1,31 +1,24 @@
 package com.albuquerque.cryptoe_wallet.app.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Transaction
 import com.albuquerque.cryptoe_wallet.app.model.entity.CryptocurrencyEntity
-import com.albuquerque.cryptoe_wallet.app.model.entity.UserCurrency
+import com.albuquerque.cryptoe_wallet.app.model.entity.UserCryptocurrencyEntity
 import com.albuquerque.cryptoe_wallet.app.model.entity.UserEntity
-import com.albuquerque.cryptoe_wallet.app.model.entity.UserWithCurrencies
+import com.albuquerque.cryptoe_wallet.app.utils.Session
 import com.albuquerque.cryptoe_wallet.core.database.BaseDao
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CryptocurrencyDao: BaseDao<CryptocurrencyEntity> {
 
-    @Query("DELETE FROM session")
-    suspend fun deleteAll()
-
     @Query("select * from cryptocurrency")
     fun getAll(): List<CryptocurrencyEntity>
 
-    @Query("select * from cryptocurrency WHERE name=:name")
-    fun getByNameAsLiveData(name: String): LiveData<CryptocurrencyEntity?>
-
-    @Query("select * from cryptocurrency WHERE name=:name")
-    suspend fun getByName(name: String): CryptocurrencyEntity?
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUserWithCurrency(join: UserCurrency)
+    @Query("select * from user_cryptocurrency WHERE currency=:name AND user=:user")
+    fun getByNameAsLiveData(name: String, user: String = Session.userLogged): LiveData<UserCryptocurrencyEntity?>
 
     @Transaction
     suspend fun getCurrenciesAndInsertWithUser(user: UserEntity, action: suspend () -> Unit): UserEntity {
@@ -34,10 +27,7 @@ interface CryptocurrencyDao: BaseDao<CryptocurrencyEntity> {
     }
 
     @Transaction
-    @Query("select * from user")
-    fun getUserWithCurrencies(): Flow<List<UserWithCurrencies>>
-
-    @Query("SELECT * FROM usercurrency WHERE email=:userId AND name=:currencyId")
-    fun getUserCurrencyById(userId: String, currencyId: String): LiveData<UserCurrency>
+    @Query("select * from user_cryptocurrency WHERE user=:user ORDER BY currency")
+    fun getUserCurrencies(user: String = Session.userLogged): Flow<List<UserCryptocurrencyEntity>>
 
 }

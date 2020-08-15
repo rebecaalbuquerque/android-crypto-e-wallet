@@ -3,10 +3,7 @@ package com.albuquerque.cryptoe_wallet.core.database
 import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.albuquerque.cryptoe_wallet.app.dao.CryptocurrencyDao
-import com.albuquerque.cryptoe_wallet.app.dao.TransactionDao
-import com.albuquerque.cryptoe_wallet.app.dao.SessionDao
-import com.albuquerque.cryptoe_wallet.app.dao.UserDao
+import com.albuquerque.cryptoe_wallet.app.dao.*
 import com.albuquerque.cryptoe_wallet.app.model.entity.*
 
 @Database(
@@ -14,7 +11,7 @@ import com.albuquerque.cryptoe_wallet.app.model.entity.*
         exportSchema = false,
         entities = [
             UserEntity::class, SessionEntity::class, CryptocurrencyEntity::class,
-            UserCurrency::class, TransactionEntity::class, UserTransaction::class
+            TransactionEntity::class, UserTransaction::class, UserCryptocurrencyEntity::class
         ]
 )
 @TypeConverters(Converters::class)
@@ -50,5 +47,6 @@ abstract class AppDatabase: RoomDatabase() {
     abstract val sessionDao: SessionDao
     abstract val cryptocurrencyDao: CryptocurrencyDao
     abstract val transactionDao: TransactionDao
+    abstract val userCryptocurrencyDao: UserCryptocurrencyDao
 
 }

@@ -7,7 +7,7 @@ class ClearSessionUseCase(
     private val repository: Repository
 ) {
     suspend fun invoke() {
-        Session.userLogged = ""
         repository.clearSession()
+        Session.userLogged = ""
     }
 }
