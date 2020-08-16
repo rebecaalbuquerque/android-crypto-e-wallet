@@ -1,5 +1,12 @@
 # Crypto E-wallet
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/41158713/90325228-6057d200-df4f-11ea-9d76-596d971bf142.png" width="600">
+</p>
+
+<br/>
+<br/>
+
 This is a simple app that simulates a virtual cryptocurrency wallet, where after registering the user will start with R$ 100,000.00 of available credit. Crypto E-wallet has purchase, sale and exchange transactions for some cryptocurrencies (such as Bitcoin and Brita).
 
 # Overview
